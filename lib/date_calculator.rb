@@ -2,10 +2,6 @@ require 'date'
 
 class DateCalculator
   def initialize(start_date, interval)
-    if !start_date.is_a? Date
-      raise "Please pass in a valid Date object"
-    end
-
     case interval
     when "daily"
       @interval = :daily
