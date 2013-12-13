@@ -1,7 +1,7 @@
 require 'date'
 
 class DateCalculator
-  def initialize(start_date, interval)
+  def initialize(interval)
     case interval
     when "daily"
       @interval = :daily
