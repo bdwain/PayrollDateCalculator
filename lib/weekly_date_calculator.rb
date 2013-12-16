@@ -1,4 +1,4 @@
-require 'date_calculator'
+require_relative 'date_calculator'
 
 class WeeklyDateCalculator < DateCalculator
   attr_reader :n_weekly

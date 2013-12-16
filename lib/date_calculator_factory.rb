@@ -1,7 +1,7 @@
-require 'daily_date_calculator'
-require 'weekly_date_calculator'
-require 'semi_monthly_date_calculator'
-require 'monthly_date_calculator'
+require_relative 'daily_date_calculator'
+require_relative 'weekly_date_calculator'
+require_relative 'semi_monthly_date_calculator'
+require_relative 'monthly_date_calculator'
 
 class DateCalculatorFactory
   def self.get_calculator(interval)

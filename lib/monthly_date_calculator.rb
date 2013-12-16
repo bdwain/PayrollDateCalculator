@@ -1,4 +1,4 @@
-require 'date_calculator'
+require_relative 'date_calculator'
 
 class MonthlyDateCalculator < DateCalculator
   def get_all_paydates(start_date, end_date)
