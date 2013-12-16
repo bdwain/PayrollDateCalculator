@@ -15,7 +15,7 @@ if ARGV.include? "help"
   puts "     monthly: pays on the last day of every month. if those days are on a weekend, it pays on the friday before"
   puts "  start_date: the date to start calculating paydates from (MM/DD/YYYY). Defaults to today."
   puts "  end_date: the end date (not inclusive). Defaults to 1 year past start_date"
-  puts "  holiday_file: a text file containing a list of dates (formatted MM/DD/YYYY) on separate lines. These are invalid paydays, in addition to weekends"
+  puts "  holiday_file: an optional text file containing a list of dates (formatted MM/DD/YYYY) on separate lines. These are invalid paydays, in addition to weekends"
   exit
 end
 
