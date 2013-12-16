@@ -17,9 +17,9 @@ if ARGV.include? "--help"
   exit
 end
 
-interval = (ARGV.length > 0 && ARGV[0].to_sym) || :bi_weekly
-start_date = (ARGV.length > 1 && parse_date_str(ARGV[1])) || Date.today
-end_date = (ARGV.length > 2 && parse_date_str(ARGV[2])) || start_date >> 12
+interval = (ARGV[0] && ARGV[0].to_sym) || :bi_weekly
+start_date = (ARGV[1] && parse_date_str(ARGV[1])) || Date.today
+end_date = (ARGV[2] && parse_date_str(ARGV[2])) || start_date >> 12
 
 calc = DateCalculatorFactory.get_calculator(interval)
 
