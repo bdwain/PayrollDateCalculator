@@ -13,28 +13,50 @@ describe MonthlyDateCalculator do
 
     context "when the last day of the month is a saturday" do
       let(:start_date) {Date.new(2013,8,1)}
-      let(:end_date) {Date.new(2013,9,1)}
+      
+      context "when the last day of the month is in the date range" do
+        let(:end_date) {Date.new(2013,9,1)}
 
-      it "includes the friday before the last day" do
-        expect(result).to include(Date.new(2013,8,30))
+        it "includes the friday before the last day" do
+          expect(result).to include(Date.new(2013,8,30))
+        end
+
+        it "excludes the last day of the month" do
+          expect(result).not_to include(Date.new(2013,8,31))
+        end
       end
 
-      it "excludes the last day of the month" do
-        expect(result).not_to include(Date.new(2013,8,31))
+      context "when the last day of the month is not in the date range" do
+        let(:end_date) {Date.new(2013,8,31)}
+
+        it "includes the friday before the last day" do
+          expect(result).to include(Date.new(2013,8,30))
+        end        
       end
     end
 
     context "when the last day of the month is a sunday" do
       let(:start_date) {Date.new(2013,6,1)}
-      let(:end_date) {Date.new(2013,7,1)}
 
-      it "includes the friday before the last day" do
-        expect(result).to include(Date.new(2013,6,28))
+      context "when the last day of the month is in the date range" do
+        let(:end_date) {Date.new(2013,7,1)}
+
+        it "includes the friday before the last day" do
+          expect(result).to include(Date.new(2013,6,28))
+        end
+
+        it "excludes the last day of the month" do
+          expect(result).not_to include(Date.new(2013,6,30))
+        end
       end
 
-      it "excludes the last day of the month" do
-        expect(result).not_to include(Date.new(2013,6,30))
-      end      
+      context "when the last day of the month is not in the date range" do
+        let(:end_date) {Date.new(2013,6,30)}
+
+        it "includes the friday before the last day" do
+          expect(result).to include(Date.new(2013,6,28))
+        end        
+      end  
     end
 
     context "when it's a leap year" do
