@@ -18,10 +18,21 @@ if ARGV.include? "--help"
 end
 
 interval = (ARGV[0] && ARGV[0].to_sym) || :bi_weekly
-start_date = (ARGV[1] && parse_date_str(ARGV[1])) || Date.today
-end_date = (ARGV[2] && parse_date_str(ARGV[2])) || start_date >> 12
 
-calc = DateCalculatorFactory.get_calculator(interval)
+begin
+  calc = DateCalculatorFactory.get_calculator(interval)
+rescue Exception
+  puts $!
+  exit
+end
+
+begin
+  start_date = (ARGV[1] && parse_date_str(ARGV[1])) || Date.today
+  end_date = (ARGV[2] && parse_date_str(ARGV[2])) || start_date >> 12
+rescue ArgumentError
+  puts "Invalid date passed. Please pass dates in the format MM/YY/DDDD"
+  exit
+end
 
 result = calc.get_all_paydates(start_date, end_date)
 
