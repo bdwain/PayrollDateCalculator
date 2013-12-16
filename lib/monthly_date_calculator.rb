@@ -2,7 +2,7 @@ require_relative 'date_calculator'
 
 class MonthlyDateCalculator < DateCalculator
   def get_all_paydates(start_date, end_date)
-    get_all_paydates_on_days(start_date, end_date, [start_date.day])
+    get_all_paydates_on_days(start_date, end_date, [31])
   end
 
   protected
