@@ -7,7 +7,7 @@ class MonthlyDateCalculator < DateCalculator
   end
 
   protected
-  #pays on the days in array valid_days, instead of the day of start_date
+  #pays on the days of the month in array valid_days
   def get_all_paydates_on_days(start_date, end_date, valid_days)
     #end the range here instead of end_date so that any payday failling between end_date and this will be included, which will then get paid inside start_date...end_date
     first_valid_payday_outside_range = get_next_valid_paydate(end_date)
