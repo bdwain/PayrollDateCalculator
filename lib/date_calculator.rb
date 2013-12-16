@@ -18,9 +18,4 @@ class DateCalculator
     date = date.prev_day until valid_paydate?(date)
     date
   end
-
-  def get_next_valid_paydate(date)
-    date = date.next_day until valid_paydate?(date)
-    date
-  end
 end

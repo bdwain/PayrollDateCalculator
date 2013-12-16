@@ -13,7 +13,7 @@ class MonthlyDateCalculator < DateCalculator
 
     result = (start_date..first_valid_payday_outside_range).to_a.select! {|day| is_corresponding_paydate?(valid_days, day)}
     result.map! {|day| get_last_valid_paydate(day)}
-    result.keep_if {|day| (start_date...end_date).cover?(day) }    
+    result.keep_if {|day| (start_date...end_date).cover?(day) }
   end
 
   private
@@ -21,4 +21,9 @@ class MonthlyDateCalculator < DateCalculator
   def is_corresponding_paydate?(valid_days, day)
     valid_days.any? {|current_day| day.day == current_day || (day.next_day.month != day.month && day.day < current_day)}
   end
+
+  def get_next_valid_paydate(date)
+    date = date.next_day until valid_paydate?(date)
+    date
+  end  
 end
