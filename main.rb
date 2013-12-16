@@ -4,7 +4,7 @@ def parse_date_str(str)
   Date.strptime(str, "%m/%d/%Y")
 end
 
-if ARGV.include? "--help"
+if ARGV.include? "help"
   puts "Usage: ruby main.rb <interval> <start_date> <end_date>"
   puts "  interval: can be any of daily, weekly, bi_weekly, semi_monthly, or monthly. defaults to bi_weekly"
   puts "     daily: pays every weekday"
