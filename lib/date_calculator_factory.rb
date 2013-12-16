@@ -1,6 +1,6 @@
 require 'daily_date_calculator'
 require 'weekly_date_calculator'
-#require 'semi_monthly_date_calculator'
+require 'semi_monthly_date_calculator'
 require 'monthly_date_calculator'
 
 class DateCalculatorFactory
@@ -13,7 +13,7 @@ class DateCalculatorFactory
     when :bi_weekly
       WeeklyDateCalculator.new(2)
     when :semi_monthly
-      SemiMonthylDateCaclulator.new
+      SemiMonthlyDateCalculator.new
     when :monthly
       MonthlyDateCalculator.new
     else

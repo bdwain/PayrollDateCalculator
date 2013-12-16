@@ -47,7 +47,7 @@ describe DateCalculatorFactory do
       let(:interval) {:semi_monthly}
 
       it "returns a SemiMonthlyDateCalculator" do
-        #expect(result).to be_a(SemiMonthlyDateCalculator)
+        expect(result).to be_a(SemiMonthlyDateCalculator)
       end
     end
 
