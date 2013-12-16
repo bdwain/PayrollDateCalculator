@@ -21,8 +21,8 @@ interval = (ARGV[0] && ARGV[0].to_sym) || :bi_weekly
 
 begin
   calc = DateCalculatorFactory.get_calculator(interval)
-rescue Exception
-  puts $!
+rescue
+  puts "Invalid interval. Please use daily, weekly, bi_weekly, semi_monthly, or monthly"
   exit
 end
 
