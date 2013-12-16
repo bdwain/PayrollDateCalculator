@@ -11,6 +11,54 @@ describe SemiMonthlyDateCalculator do
       expect(result).to eq((start_date...end_date).to_a.keep_if {|day| day.day == 15 || day.next_day.month != day.month})
     end
 
-    include_examples "last day of the month MonthlyDateCalculator checks"    
+    include_examples "last day of the month MonthlyDateCalculator checks"
+
+    context "when the 15th is a saturday" do
+      let(:start_date) {Date.new(2013,6,1)}
+      
+      context "when the 15th is in the date range" do
+        let(:end_date) {Date.new(2013,6,30)}
+
+        it "includes the friday before the 15th" do
+          expect(result).to include(Date.new(2013,6,14))
+        end
+
+        it "excludes the 15th" do
+          expect(result).not_to include(Date.new(2013,6,15))
+        end
+      end
+
+      context "when the 15th is not in the date range" do
+        let(:end_date) {Date.new(2013,6,15)}
+
+        it "includes the friday before the 15th" do
+          expect(result).to include(Date.new(2013,6,14))
+        end        
+      end
+    end
+
+    context "when the 15th is a sunday" do
+      let(:start_date) {Date.new(2013,12,1)}
+
+      context "when the 15th is in the date range" do
+        let(:end_date) {Date.new(2013,12,31)}
+
+        it "includes the friday before the 15th" do
+          expect(result).to include(Date.new(2013,12,13))
+        end
+
+        it "excludes the 15th" do
+          expect(result).not_to include(Date.new(2013,12,15))
+        end
+      end
+
+      context "when the 15th is not in the date range" do
+        let(:end_date) {Date.new(2013,12,15)}
+
+        it "includes the friday before the 15th" do
+          expect(result).to include(Date.new(2013,12,13))
+        end        
+      end  
+    end
   end
 end
