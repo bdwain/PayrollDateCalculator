@@ -18,8 +18,8 @@ if ARGV.include? "--help"
 end
 
 interval = (ARGV.length > 0 && ARGV[0].to_sym) || :bi_weekly
-start_date = (ARGV.length > 1 && ARGV[1], "%m/%d/%Y")) || Date.today
-end_date = (ARGV.length > 2 && Date.strptime(ARGV[2], "%m/%d/%Y")) || start_date >> 12
+start_date = (ARGV.length > 1 && parse_date_str(ARGV[1])) || Date.today
+end_date = (ARGV.length > 2 && parse_date_str(ARGV[2])) || start_date >> 12
 
 calc = DateCalculatorFactory.get_calculator(interval)
 
