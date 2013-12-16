@@ -76,4 +76,53 @@ shared_examples_for "last day of the month MonthlyDateCalculator checks" do
       end
     end
   end
+
+  context "when the last day of the month is a holiday" do
+    let(:start_date) {Date.new(2013,12,1)}
+    let(:end_date) {Date.new(2014,1,1)}
+    let(:holidays) {[Date.new(2013,12,31)]}
+
+    it "excludes the regular payday" do
+      expect(result).to_not include(holidays[0])
+    end
+
+    it "includes the day before the holiday" do
+      expect(result).to include(Date.new(2013,12,30))
+    end
+
+    context "when the holiday is also the end date" do
+      let(:end_date) {holidays[0]}
+
+      it "includes the day before the holiday" do
+        expect(result).to include(Date.new(2013,12,30))
+      end
+    end
+
+    context "when there are a combination of holidays and weekends leading up to a payday" do
+      let(:holidays) {[Date.new(2013,12,31), Date.new(2013,12,30)]}
+
+      it "excludes all of the holidays" do
+        holidays.each do |day|
+          expect(result).to_not include(day)
+        end
+      end
+
+      it "excludes all of the weekends" do
+        expect(result).to_not include(Date.new(2013,12,29))
+        expect(result).to_not include(Date.new(2013,12,28))
+      end
+
+      it "includes the last non holiday non weekday before the payday" do
+        expect(result).to include(Date.new(2013,12,27))
+      end
+
+      context "when the holiday is also the end_date" do
+        let(:end_date) {holidays[0]}
+
+        it "includes the last valid payday in the interval" do
+          expect(result).to include(Date.new(2013,12,27))
+        end
+      end
+    end
+  end
 end

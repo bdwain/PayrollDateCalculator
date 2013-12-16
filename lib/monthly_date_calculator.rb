@@ -1,7 +1,8 @@
 require_relative 'date_calculator'
 
 class MonthlyDateCalculator < DateCalculator
-  def get_all_paydates(start_date, end_date)
+  def get_all_paydates(start_date, end_date, holidays = [])
+    @holidays = holidays
     get_all_paydates_on_days(start_date, end_date, [31])
   end
 
@@ -21,9 +22,4 @@ class MonthlyDateCalculator < DateCalculator
   def is_corresponding_paydate?(valid_days, day)
     valid_days.any? {|current_day| day.day == current_day || (day.next_day.month != day.month && day.day < current_day)}
   end
-
-  def get_next_valid_paydate(date)
-    date = date.next_day until valid_paydate?(date)
-    date
-  end  
 end

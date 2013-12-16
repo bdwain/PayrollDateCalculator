@@ -32,7 +32,7 @@ end
 holiday_file = ARGV[3]
 if holiday_file
   begin
-    dates = HolidayFileParser.new.parse_file(holiday_file)
+    holidays = HolidayFileParser.new.parse_file(holiday_file)
   rescue Errno::ENOENT
     puts "The holiday file you specified does not exist. Run with parameter help for usage."
     exit
@@ -41,7 +41,7 @@ if holiday_file
     exit
   end
 else
-  dates = Array.new
+  holidays = Array.new
 end
 
 begin
@@ -51,7 +51,7 @@ rescue
   exit
 end
 
-result = calc.get_all_paydates(start_date, end_date)
+result = calc.get_all_paydates(start_date, end_date, holidays)
 
 result.each do |date|
   puts date.strftime("%-m/%-d/%Y")

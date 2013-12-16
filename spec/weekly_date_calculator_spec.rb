@@ -16,7 +16,8 @@ describe WeeklyDateCalculator do
   end
 
   describe "#get_all_paydates" do
-    let(:result) {WeeklyDateCalculator.new(n_weekly).get_all_paydates(start_date, end_date)}
+    let(:result) {WeeklyDateCalculator.new(n_weekly).get_all_paydates(start_date, end_date, holidays)}
+    let(:holidays) {[]}
 
     context "when n_weekly is 1" do
       let(:n_weekly) {1}
@@ -69,6 +70,51 @@ describe WeeklyDateCalculator do
           expected_result = (start_date...end_date).to_a.select! {|day| day.wday == 5}
           expected_result = expected_result.select.each_with_index { |day, i| (i+1) % n_weekly == 0 }
           expect(result).to eq(expected_result)
+        end        
+      end
+    end
+
+    context "when there is a holiday on a payday" do
+      let(:n_weekly) {1}
+      let(:start_date) {Date.new(2013,12,1)}
+      let(:end_date) {Date.new(2014,1,1)}
+      let(:holidays) {[Date.new(2013,12,6)]}
+
+      it "excludes the regular payday" do
+        expect(result).to_not include(holidays[0])
+      end
+
+      it "includes the day before the holiday" do
+        expect(result).to include(Date.new(2013,12,5))
+      end
+
+      context "when the holiday is also the end_date" do
+        let(:end_date) {holidays[0]}
+
+        it "includes the last valid payday in the interval" do
+          expect(result).to include(Date.new(2013,12,5))
+        end
+      end
+
+      context "when there are multiple holidays leading up to a payday" do
+        let(:holidays) {[Date.new(2013,12,6), Date.new(2013,12,5), Date.new(2013,12,4)]}
+
+        it "excludes all of the holidays" do
+          holidays.each do |day|
+            expect(result).to_not include(day)
+          end
+        end
+
+        it "includes the last non holiday before the payday" do
+          expect(result).to include(Date.new(2013,12,3))
+        end
+
+        context "when the holiday is also the end_date" do
+          let(:end_date) {holidays[0]}
+
+          it "includes the last valid payday in the interval" do
+            expect(result).to include(Date.new(2013,12,3))
+          end
         end        
       end
     end
