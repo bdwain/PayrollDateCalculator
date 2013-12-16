@@ -20,6 +20,8 @@ class MonthlyDateCalculator < DateCalculator
   private
   #returns true if day is on a valid_day or day is the last day of the month and there is a valid_day later than it (e.g valid_days = [31] && day is Feb. 28)
   def is_corresponding_paydate?(valid_days, day)
-    valid_days.any? {|current_day| day.day == current_day || (day.next_day.month != day.month && day.day < current_day)}
+    valid_days.any? do |current_day| 
+      day.day == current_day || (day.next_day.month != day.month && day.day < current_day)
+    end
   end
 end
