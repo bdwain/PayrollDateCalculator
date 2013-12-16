@@ -7,7 +7,11 @@ class DateCalculator
 
   protected
   def valid_paydate?(date)
-    date.wday !=0 && date.wday != 6
+    !is_weekend?(date)
+  end
+
+  def is_weekend?(date)
+    date.wday ==0 || date.wday == 6
   end
 
   def get_last_valid_paydate(date)

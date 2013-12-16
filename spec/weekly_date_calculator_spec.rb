@@ -20,46 +20,19 @@ describe WeeklyDateCalculator do
 
     context "when n_weekly is 1" do
       let(:n_weekly) {1}
-      context "when the start_date is a weekday" do
-        let(:start_date) {Date.new(2013,12,3)}
-        let(:end_date) {Date.new(2014,5,1)}
+      let(:start_date) {Date.new(2013,12,3)}
+      let(:end_date) {Date.new(2014,1,1)}
 
-        it "returns all instances of that day of the week in start_date...end_date" do
-          expect(result).to eq((start_date...end_date).to_a.select! {|day| day.wday == 2})
-        end
+      it "includes all fridays in start_date...end_date" do
+        expect(result).to eq((start_date...end_date).to_a.select!{|day| day.wday == 5})
       end
 
-      context "when the start_date is a saturday" do
-        let(:start_date) {Date.new(2013,12,7)}
-        let(:end_date) {Date.new(2014,12,1)}
+      context "when end_date is a friday" do
+        let(:end_date) {Date.new(2013,12,13)}
 
-        it "returns all fridays in start_date...end_date" do
-          expect(result).to eq((start_date...end_date).to_a.select! {|day| day.wday == 5})
+        it "does not include end_date" do
+          expect(result).to_not include(end_date)
         end
-
-        context "when end_date is saturday" do
-          let(:end_date) {Date.new(2013,12,14)}
-
-          it "includes the friday before end_date" do
-            expect(result).to include(end_date-1)
-          end
-        end
-      end
-
-      context "when the start_date is a sunday" do
-        let(:start_date) {Date.new(2013,12,8)}
-        let(:end_date) {Date.new(2014,12,1)}
-
-        it "returns all fridays in start_date...end_date" do
-          expect(result).to eq((start_date...end_date).to_a.select! {|day| day.wday == 5})
-        end
-
-        context "when end_date is on the weekend" do
-          let(:end_date) {Date.new(2013,12,14)}
-          it "includes the friday before end_date" do
-            expect(result).to include(end_date-1)
-          end
-        end        
       end
     end
 
@@ -70,8 +43,8 @@ describe WeeklyDateCalculator do
         let(:start_date) {Date.new(2013,12,5)}
         let(:end_date) {Date.new(2014,4,1)}
 
-        it "returns every nth instance of that weekday in start_date...end_date (starting with the first)" do
-          expected_result = (start_date...end_date).to_a.select! {|day| day.wday == 4}
+        it "returns every nth instance of friday in start_date...end_date (starting with the first)" do
+          expected_result = (start_date...end_date).to_a.select! {|day| day.wday == 5}
           expected_result = expected_result.select.each_with_index { |day, i| i % n_weekly == 0 }
           expect(result).to eq(expected_result)
         end
@@ -79,40 +52,24 @@ describe WeeklyDateCalculator do
 
       context "when the start_date is a saturday" do
         let(:start_date) {Date.new(2013,12,7)}
-        let(:end_date) {Date.new(2014,12,1)}
+        let(:end_date) {Date.new(2014,4,1)}
 
         it "returns every nth friday in start_date...end_date (starting with the nth)" do
           expected_result = (start_date...end_date).to_a.select! {|day| day.wday == 5}
           expected_result = expected_result.select.each_with_index { |day, i| (i+1) % n_weekly == 0 }
           expect(result).to eq(expected_result)
         end
-
-        context "when end_date is a saturday that is a multiple of n weeks after start_date" do
-          let(:end_date) {Date.new(2013,12,21)}
-
-          it "includes the friday before end_date" do
-            expect(result).to include(end_date-1)
-          end
-        end        
       end
 
       context "when the start_date is a sunday" do
         let(:start_date) {Date.new(2013,12,8)}
-        let(:end_date) {Date.new(2014,12,1)}
+        let(:end_date) {Date.new(2014,4,1)}
 
         it "returns every nth friday in start_date...end_date (starting with the nth)" do
           expected_result = (start_date...end_date).to_a.select! {|day| day.wday == 5}
           expected_result = expected_result.select.each_with_index { |day, i| (i+1) % n_weekly == 0 }
           expect(result).to eq(expected_result)
-        end
-
-        context "when end_date is on a weekend that is a multiple of n weeks after start_date" do
-          let(:end_date) {Date.new(2013,12,21)}
-
-          it "includes the friday before end_date" do
-            expect(result).to include(end_date-1)
-          end
-        end           
+        end        
       end
     end
   end
